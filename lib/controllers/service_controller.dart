@@ -6,7 +6,9 @@ import '../services/favorite_service.dart';
 
 class PlaceController extends GetxController {
   var places = <Service>[].obs;
+  var myPlaces = <Service>[].obs;
   var isLoading = true.obs;
+  var isMyLoading = true.obs;
   var selectedCategoryId = "".obs;
   var favoritePlaces = <Service>[].obs; // List for favorite places
 
@@ -16,6 +18,7 @@ class PlaceController extends GetxController {
   @override
   void onInit() {
     fetchPlaces();
+    fetchMyPlaces();
     getFavoritePlaces();
     super.onInit();
   }
@@ -31,6 +34,19 @@ class PlaceController extends GetxController {
       isLoading(false);
     }
   }
+
+  void fetchMyPlaces() async {
+    try {
+      isMyLoading(true);
+      var fetchedPlaces = await _placeService.getMyPlaces();
+      if (fetchedPlaces.isNotEmpty) {
+        myPlaces.assignAll(fetchedPlaces);
+      }
+    } finally {
+      isMyLoading(false);
+    }
+  }
+
 
   Future<void> filterByCategory(String categoryId) async {
     selectedCategoryId(categoryId);

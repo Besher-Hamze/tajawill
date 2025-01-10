@@ -23,7 +23,24 @@ class OfferService {
 
   Future<void> addOffer(Offer offer) async {
     try {
-      await _offersRef.add(offer.toMap());
+      DocumentReference<Object?> offerDoc = _offersRef.doc();
+      offer.id = offerDoc.id;
+      await offerDoc.set(offer.toMap());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateOffer(Offer offer) async {
+    try {
+      await _offersRef.doc(offer.id).update(offer.toMap());
+    } catch (e) {
+      print(e);
+    }
+  }
+  Future<void> deleteOffer(String id) async {
+    try {
+      await _offersRef.doc(id).delete();
     } catch (e) {
       print(e);
     }

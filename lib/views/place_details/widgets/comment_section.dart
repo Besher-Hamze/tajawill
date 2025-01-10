@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tajawil/controllers/service_controller.dart';
 import 'package:tajawil/utils/cache_helper.dart';
 import '../../../controllers/review_controller.dart';
 import '../../../models/review.dart';
@@ -129,7 +130,9 @@ class CommentSection extends StatelessWidget {
                       );
 
                       reviewController.addReview(newReview);
-
+                      var controller = Get.put(PlaceController());
+                      controller.fetchMyPlaces();
+                      controller.fetchPlaces();
                       _commentController.clear();
                       _rating.value = 0;
                     },

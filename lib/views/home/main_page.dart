@@ -25,30 +25,53 @@ class _MainPageState extends State<MainPage> {
       children: [
         Container(
           color: Colors.white,
-          padding: const EdgeInsets.all(16),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'ابحث عن خدمة...',
-              hintStyle: TextStyle(color: Colors.grey[400]),
-              prefixIcon: Icon(Icons.search, color: AppColors.primary),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide.none,
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'ابحث عن خدمة...',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    prefixIcon: Icon(Icons.search_rounded,
+                        color: AppColors.primary, size: 26),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
+                  ),
+                  onChanged: (value) {},
+                ),
               ),
-              filled: true,
-              fillColor: Colors.grey[100],
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            ),
-            onChanged: (value) {},
+            ],
           ),
         ),
         Container(
-          height: 100,
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          height: 70,
+          padding: const EdgeInsets.symmetric(vertical: 12),
           child: Obx(() {
             if (categoryController.isLoading.value) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                ),
+              );
             }
             return ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -72,10 +95,31 @@ class _MainPageState extends State<MainPage> {
         Expanded(
           child: Obx(() {
             if (placeController.isLoading.value) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                ),
+              );
             }
             if (placeController.places.isEmpty) {
-              return Center(child: Text('لا توجد أماكن'));
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.search_off_rounded,
+                        size: 64, color: Colors.grey[400]),
+                    const SizedBox(height: 16),
+                    Text(
+                      'لا توجد خدمات متاحة',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
             return ListView.builder(
               padding: const EdgeInsets.all(16),

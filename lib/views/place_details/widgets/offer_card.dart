@@ -26,7 +26,7 @@ class OfferCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (offer.isSpecial)
+          if (offer.isSpecial ?? false)
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 8),

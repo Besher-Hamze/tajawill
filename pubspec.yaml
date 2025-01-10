@@ -42,6 +42,12 @@ dependencies:
   cached_network_image: ^3.2.1
   flutter_iconpicker_plus: ^3.2.3
   shared_preferences:
+  google_maps_flutter:
+  geolocator:
+  url_launcher:
+  intl:
+  image_picker:
+  firebase_storage:
 #  flutter_iconpicker:
 dev_dependencies:
   flutter_test:

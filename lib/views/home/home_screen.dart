@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tajawil/controllers/home_controller.dart';
+import 'package:tajawil/views/manage_service/home_page.dart';
 import '../../controllers/category_controller.dart';
 import '../../controllers/service_controller.dart';
 import '../../models/service_model.dart';
@@ -21,20 +22,41 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final homeController = Get.put(HomeController());
     return GetBuilder<HomeController>(
-      builder:(controller) =>  Directionality(
+      builder: (controller) => Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            title: Text(
-              'خدمات سورية',
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
+              elevation: 0,
+              backgroundColor: Colors.white,
+              title: Text(
+                'دليلك السياحي',
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ),
+              actions: [
+                if (controller.isAdmin)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: TextButton(
+                      child: Text(
+                        "إدارة خدماتي",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.secondary),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeAdminManagement(),
+                            ));
+                      },
+                    ),
+                  ),
+              ]),
           body: homeController.screens[homeController.currentScreen.value],
           bottomNavigationBar: BottomNavigationBar(
               items: const [

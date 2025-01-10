@@ -1,4 +1,3 @@
-
 import 'category.dart';
 
 class Service {
@@ -13,35 +12,36 @@ class Service {
   final CategoryModel category;
   final double averageRating;
   final int totalRates;
+  String? openTime;
 
-  Service({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.address,
-    required this.longitude,
-    required this.latitude,
-    required this.imageUrl,
-    required this.category,
-    required this.userId,
-    this.averageRating = 0.0,
-    this.totalRates = 0,
-  });
+  Service(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.address,
+      required this.longitude,
+      required this.latitude,
+      required this.imageUrl,
+      required this.category,
+      required this.userId,
+      this.averageRating = 0.0,
+      this.totalRates = 0,
+      this.openTime});
 
   factory Service.fromMap(Map<String, dynamic> map, String id) {
     return Service(
-      id: id,
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-      address: map['address'] ?? '',
-      longitude: map['longitude']?.toDouble() ?? 0.0,
-      latitude: map['latitude']?.toDouble() ?? 0.0,
-      imageUrl: map['imageUrl'] ?? '',
-      userId: map['userId'] ?? '',
-      category: CategoryModel.fromMap(map['category']),
-      averageRating: map['averageRating']?.toDouble() ?? 0.0,
-      totalRates: map['totalRates'] ?? 0,
-    );
+        id: id,
+        name: map['name'] ?? '',
+        description: map['description'] ?? '',
+        address: map['address'] ?? '',
+        longitude: map['longitude']?.toDouble() ?? 0.0,
+        latitude: map['latitude']?.toDouble() ?? 0.0,
+        imageUrl: map['imageUrl'] ?? '',
+        userId: map['userId'] ?? '',
+        category: CategoryModel.fromMap(map['category']),
+        averageRating: map['averageRating']?.toDouble() ?? 0.0,
+        totalRates: map['totalRates'] ?? 0,
+        openTime: map['openTime'] ?? "");
   }
 
   Map<String, dynamic> toMap() {
@@ -56,6 +56,7 @@ class Service {
       'category': category.toMap(),
       'averageRating': averageRating,
       'totalRates': totalRates,
+      "openTime": openTime ?? ""
     };
   }
 }

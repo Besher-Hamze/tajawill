@@ -2,15 +2,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Offer {
-  final String id;
+   String id;
   final String title;
   final String description;
   final double originalPrice;
   final double discountedPrice;
   final DateTime startDate;
   final DateTime endDate;
-  final int placeId;
-  final bool isSpecial;
+  final String placeId;
+  bool? isSpecial;
 
   Offer({
     required this.id,

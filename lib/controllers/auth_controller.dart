@@ -105,7 +105,7 @@ class AuthController extends GetxController {
           .collection("users")
           .doc(_auth.currentUser!.uid)
           .get();
-      await CacheHelper.putData(key: "name", value: userData.data()!['name']);
+      await CacheHelper.putData(key: "name", value: userData.data()?['name'] ?? "Sadam");
       Get.offAllNamed(Routes.HOME);
       Get.snackbar(
         'نجاح',
