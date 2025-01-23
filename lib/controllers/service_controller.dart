@@ -23,7 +23,7 @@ class PlaceController extends GetxController {
     super.onInit();
   }
 
-  void fetchPlaces() async {
+  fetchPlaces() async {
     try {
       isLoading(true);
       var fetchedPlaces = await _placeService.getPlaces();
@@ -47,12 +47,50 @@ class PlaceController extends GetxController {
     }
   }
 
-
-  Future<void> filterByCategory(String categoryId) async {
+  Future<void> filterByCategory(String? categoryId) async {
     selectedCategoryId(categoryId);
+
     try {
       isLoading(true);
-      var fetchedPlaces = await _placeService.getPlacesByCategory(categoryId);
+      var fetchedPlaces;
+      if (categoryId == "") {
+        fetchedPlaces = await _placeService.getPlaces();
+      } else {
+        fetchedPlaces = await _placeService.getPlacesByCategory(categoryId!);
+      }
+      if (fetchedPlaces.isNotEmpty) {
+        places.assignAll(fetchedPlaces);
+      } else {
+        places.clear();
+      }
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> filterByGov(String gov) async {
+    try {
+      isLoading(true);
+      var fetchedPlaces = await _placeService.getPlacesByGov(gov);
+      if (fetchedPlaces.isNotEmpty) {
+        places.assignAll(fetchedPlaces);
+      } else {
+        places.clear();
+      }
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> search(String searchKey, String? gov, String? categoryId) async {
+    try {
+      isLoading(true);
+      var fetchedPlaces = places
+          .where((p0) =>
+              p0.name.contains(searchKey) &&
+              (gov != null ? p0.governorates == gov : true) &&
+              (categoryId != null ? p0.category.id == categoryId : true))
+          .toList();
       if (fetchedPlaces.isNotEmpty) {
         places.assignAll(fetchedPlaces);
       } else {

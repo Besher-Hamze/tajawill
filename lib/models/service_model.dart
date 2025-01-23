@@ -13,6 +13,7 @@ class Service {
   final double averageRating;
   final int totalRates;
   String? openTime;
+  final String governorates;
 
   Service(
       {required this.id,
@@ -24,6 +25,7 @@ class Service {
       required this.imageUrl,
       required this.category,
       required this.userId,
+      required this.governorates,
       this.averageRating = 0.0,
       this.totalRates = 0,
       this.openTime});
@@ -41,7 +43,10 @@ class Service {
         category: CategoryModel.fromMap(map['category']),
         averageRating: map['averageRating']?.toDouble() ?? 0.0,
         totalRates: map['totalRates'] ?? 0,
-        openTime: map['openTime'] ?? "");
+        openTime: map['openTime'] ?? "",
+        governorates: map['governorates'] ?? "حلب"
+
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -56,7 +61,8 @@ class Service {
       'category': category.toMap(),
       'averageRating': averageRating,
       'totalRates': totalRates,
-      "openTime": openTime ?? ""
+      "openTime": openTime ?? "",
+      'governorates':governorates
     };
   }
 }

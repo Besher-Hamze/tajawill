@@ -2,13 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tajawil/controllers/home_controller.dart';
+import 'package:tajawil/views/home/nearest_places.dart';
 import 'package:tajawil/views/manage_service/home_page.dart';
-import '../../controllers/category_controller.dart';
-import '../../controllers/service_controller.dart';
-import '../../models/service_model.dart';
 import '../../utils/app_colors.dart';
-import 'widgets/category_card.dart';
-import 'widgets/place_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -58,6 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
               ]),
           body: homeController.screens[homeController.currentScreen.value],
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Get.to(NearestPlacesScreen());
+            },
+            child: Icon(Icons.near_me),
+          ),
           bottomNavigationBar: BottomNavigationBar(
               items: const [
                 BottomNavigationBarItem(

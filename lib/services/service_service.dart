@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,6 +44,23 @@ class PlaceService {
       QuerySnapshot snapshot =
           await _placesRef.where('category.id', isEqualTo: categoryId).get();
       return snapshot.docs.map((doc) {
+        return Service.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<Service>> getPlacesByGov(String gov) async {
+    try {
+      QuerySnapshot? snapshot;
+      if (gov == "الكل") {
+        snapshot = await _placesRef.get();
+      } else {
+        snapshot = await _placesRef.where('governorates', isEqualTo: gov).get();
+      }
+      return snapshot!.docs.map((doc) {
         return Service.fromMap(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
     } catch (e) {
@@ -108,5 +126,39 @@ class PlaceService {
       print('Error deleting service: $e');
       rethrow;
     }
+  }
+
+  Future<List<Service>> getNearestPlaces({
+    required double latitude,
+    required double longitude,
+    double radiusInKm = 1.0
+  }) async {
+    try {
+      List<Service> allPlaces = await getPlaces();
+
+      return allPlaces.where((place) {
+        const double earthRadius = 6371; // kilometers
+
+        double dLat = _degreesToRadians(place.latitude - latitude);
+        double dLon = _degreesToRadians(place.longitude - longitude);
+
+        double a =
+            sin(dLat/2) * sin(dLat/2) +
+                cos(_degreesToRadians(latitude)) * cos(_degreesToRadians(place.latitude)) *
+                    sin(dLon/2) * sin(dLon/2);
+
+        double c = 2 * atan2(sqrt(a), sqrt(1-a));
+        double distance = earthRadius * c;
+
+        return distance <= radiusInKm;
+      }).toList();
+    } catch (e) {
+      print('Error fetching nearest places: $e');
+      return [];
+    }
+  }
+
+  double _degreesToRadians(double degrees) {
+    return degrees * pi / 180;
   }
 }

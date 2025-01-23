@@ -17,10 +17,14 @@ class CategoryController extends GetxController {
 
   void fetchCategories() async {
     try {
+      List<CategoryModel> categories=[
+        CategoryModel(id: "", name: "الكل", description: "")
+      ];
       isLoading(true);
       var fetchedCategories = await _categoryService.getCategories();
       if (fetchedCategories.isNotEmpty) {
-        categories.assignAll(fetchedCategories);
+        fetchedCategories.forEach((element) {categories.add(element);});
+        this.categories.value=categories;
       }
     } finally {
       isLoading(false);

@@ -7,6 +7,7 @@ import '../../controllers/category_controller.dart';
 import '../../controllers/service_controller.dart';
 import '../../models/service_model.dart';
 import '../../utils/app_colors.dart';
+import '../widgets/drop_down.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -20,7 +21,25 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     final CategoryController categoryController = Get.find();
     final PlaceController placeController = Get.find();
-
+    String? _selectedGovernorate;
+    String? categoryId;
+    final List<String> _syrianGovernorates = [
+      'الكل',
+      'دمشق',
+      'ريف دمشق',
+      'حلب',
+      'حمص',
+      'حماة',
+      'اللاذقية',
+      'طرطوس',
+      'درعا',
+      'السويداء',
+      'القنيطرة',
+      'دير الزور',
+      'الحسكة',
+      'الرقة',
+      'إدلب',
+    ];
     return Column(
       children: [
         Container(
@@ -56,11 +75,34 @@ class _MainPageState extends State<MainPage> {
                       vertical: 14,
                     ),
                   ),
-                  onChanged: (value) {},
+                  onChanged: (value) async {
+                    if (value == "") {
+                      await placeController.fetchPlaces();
+                    } else {
+                      await placeController.search(value,_selectedGovernorate,categoryId);
+                    }
+                  },
                 ),
               ),
             ],
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: buildDropdownField(
+              value: _selectedGovernorate,
+              items: _syrianGovernorates,
+              label: 'المحافظة',
+              hint: 'اختر المحافظة',
+              onChanged: (value) async {
+                setState(() => _selectedGovernorate = value);
+                if (_selectedGovernorate != null ||
+                    _selectedGovernorate != "الكل") {
+                  await placeController.filterByGov(_selectedGovernorate!);
+                }
+                setState(() {});
+              },
+              context: context),
         ),
         Container(
           height: 70,
@@ -84,6 +126,7 @@ class _MainPageState extends State<MainPage> {
                   isSelected:
                       placeController.selectedCategoryId.value == category.id,
                   onTap: () async {
+                    categoryId=category.id;
                     await placeController.filterByCategory(category.id);
                     setState(() {});
                   },
