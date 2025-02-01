@@ -84,7 +84,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   itemCount: filteredPlaces.length,
                   itemBuilder: (context, index) {
                     final Service place = filteredPlaces[index];
-                    return PlaceCard(place: place);
+                    return PlaceCard(place: place, index: index,);
                   },
                 );
               }),
