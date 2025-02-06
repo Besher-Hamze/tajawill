@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../controllers/auth_controller.dart';
 import '../../routes/app_pages.dart';
 import '../../utils/app_colors.dart';
+import '../widgets/password_feild.dart';
 
 class RegisterScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -74,7 +75,8 @@ class RegisterScreen extends StatelessWidget {
                     controller: nameController,
                     decoration: InputDecoration(
                       hintText: 'الاسم الكامل',
-                      prefixIcon: Icon(Icons.person_outline, color: AppColors.primary),
+                      prefixIcon:
+                          Icon(Icons.person_outline, color: AppColors.primary),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.all(20),
                       hintStyle: TextStyle(color: Colors.grey[500]),
@@ -93,7 +95,8 @@ class RegisterScreen extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: 'البريد الإلكتروني',
-                      prefixIcon: Icon(Icons.email_outlined, color: AppColors.primary),
+                      prefixIcon:
+                          Icon(Icons.email_outlined, color: AppColors.primary),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.all(20),
                       hintStyle: TextStyle(color: Colors.grey[500]),
@@ -112,7 +115,8 @@ class RegisterScreen extends StatelessWidget {
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       hintText: 'رقم الهاتف',
-                      prefixIcon: Icon(Icons.phone_outlined, color: AppColors.primary),
+                      prefixIcon:
+                          Icon(Icons.phone_outlined, color: AppColors.primary),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.all(20),
                       hintStyle: TextStyle(color: Colors.grey[500]),
@@ -121,22 +125,15 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 // Password Field
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: 'كلمة المرور',
-                      prefixIcon: Icon(Icons.lock_outline, color: AppColors.primary),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(20),
-                      hintStyle: TextStyle(color: Colors.grey[500]),
-                    ),
-                  ),
+                PasswordField(
+                  controller: passwordController,
+                  primaryColor: AppColors.primary,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 32),
                 // Register Button

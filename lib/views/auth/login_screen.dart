@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../controllers/auth_controller.dart';
 import '../../routes/app_pages.dart';
 import '../../utils/app_colors.dart';
+import '../widgets/password_feild.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -61,7 +62,8 @@ class LoginScreen extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: 'البريد الإلكتروني',
-                      prefixIcon: Icon(Icons.email_outlined, color: AppColors.primary),
+                      prefixIcon:
+                          Icon(Icons.email_outlined, color: AppColors.primary),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.all(20),
                       hintStyle: TextStyle(color: Colors.grey[500]),
@@ -70,22 +72,15 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 // Password Field
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: 'كلمة المرور',
-                      prefixIcon: Icon(Icons.lock_outline, color: AppColors.primary),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(20),
-                      hintStyle: TextStyle(color: Colors.grey[500]),
-                    ),
-                  ),
+                PasswordField(
+                  controller: passwordController,
+                  primaryColor: AppColors.primary,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 12),
                 // Login Button
